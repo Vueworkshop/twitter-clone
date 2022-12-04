@@ -3,6 +3,7 @@ import { reactive, ref, toRaw } from "vue";
 import Avatar from "@/components/Avatar.vue";
 import Button from "@/components/Button.vue";
 import { useMainStore } from "@/stores/main.js";
+import { supabase } from "@/supabase";
 
 const store = useMainStore();
 
@@ -22,7 +23,7 @@ let hashtagModel = {
 
 let newTweet = reactive({
   content: undefined,
-  user: store.user,
+  user_id: store.user.id,
 });
 
 const checkHashtags = () => {
@@ -60,7 +61,11 @@ const sendNewTweet = async () => {
   try {
     state.loading = true;
 
-    emit("newTweet", toRaw(newTweet));
+    const { data, error } = await supabase.from("tweets").insert(newTweet);
+
+    console.log(data);
+
+    // emit("newTweet", toRaw(newTweet));
 
     newTweet.content = undefined;
   } catch (error) {

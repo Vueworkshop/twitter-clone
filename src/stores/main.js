@@ -1,15 +1,11 @@
-import { ref, computed } from 'vue'
+import { ref, computed, toRefs } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useMainStore = defineStore('main', () => {
-  const user = ref({
-    email: "codewithguillaume@gmail.com",
-    username: "codewithguillaume"
-  })
+  const user = ref(undefined)
   const getCurrentUser = computed(() => (user.value))
-  function addUser(user) {
-    user.value = user
-    console.log(user)
+  function addUser(_user) {
+    user.value = _user
   }
 
   return { addUser, getCurrentUser, user }

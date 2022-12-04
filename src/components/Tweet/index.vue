@@ -11,6 +11,13 @@ import useMain from "@/composables/useMainStore.js";
 
 const { user: currentUser } = useMain();
 
+const getStringSplitted = (str, max = 16) => {
+  if (str && str.length > max) {
+    return str.substring(0, max) + "...";
+  }
+  return str;
+};
+
 const state = reactive({
   size: 20,
 });
@@ -20,7 +27,7 @@ const props = defineProps({
 });
 
 const tweet = props.tweet;
-const user = props.tweet?.user;
+const user = props.tweet?.user_id;
 </script>
 
 <template>
@@ -33,9 +40,11 @@ const user = props.tweet?.user;
         </div>
         <div class="col-span-11 pl-4">
           <header>
-            <span class="mr-1 font-bold">{{ user.username || user.email }}</span>
-            <span v-if="user.username" class="mr-1 text-slate-500"
-              >@{{ user.username }}</span
+            <span v-if="user" class="mr-1 font-bold truncate">{{
+              getStringSplitted(user.username || user.email, 16)
+            }}</span>
+            <span v-if="user" class="mr-1 text-sm text-slate-500"
+              >@{{ user.username || user.email.split("@")[0] }}</span
             ><span class="mr-1 text-xs text-slate-500"
               >· {{ dayjs(created_at).format("M/DD/YYYY hh:mm") }}</span
             >

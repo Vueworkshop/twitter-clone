@@ -1,6 +1,6 @@
 <script setup>
 import { reactive } from "@vue/reactivity";
-// import { supabase } from "@/supabase.js";
+import { supabase } from "@/supabase.js";
 
 const state = reactive({
   email: undefined,
@@ -10,18 +10,18 @@ const state = reactive({
 });
 
 const handleLogin = async () => {
-  // try {
-  //   state.loading = true;
-  //   let { user, error } = await supabase.auth.signInWithOtp({
-  //     email: state.email,
-  //   });
-  //   state.success = true;
-  // } catch (error) {
-  //   console.log(error);
-  // } finally {
-  //   state.email = undefined;
-  //   state.loading = false;
-  // }
+  try {
+    state.loading = true;
+    let { user, error } = await supabase.auth.signInWithOtp({
+      email: state.email,
+    });
+    state.success = true;
+  } catch (error) {
+    console.log(error);
+  } finally {
+    state.email = undefined;
+    state.loading = false;
+  }
 };
 </script>
 
